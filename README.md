@@ -1,7 +1,82 @@
 # Flip Rate Framework
 
-Author: Athar Ahmad  
-Contact: athar.ahmad@cern.ch
+A ROOT-based framework for measuring and validating electron charge-flip rates in CMS Run 2.
+
+**Author:** Athar Ahmad  
+**Contact:** athar.ahmad@cern.ch
+
+---
+
+# Installation
+
+It is recommended to run this framework inside a CMSSW environment so that ROOT, XRootD, and the required CMS libraries are configured correctly.
+
+Create a CMSSW release and initialize the environment:
+
+```bash
+cmsrel CMSSW_13_0_10
+cd CMSSW_13_0_10/src
+cmsenv
+```
+
+Clone the repository:
+
+```bash
+git clone https://github.com/atharphy/DCH_electron_chargefliprate.git
+cd DCH_electron_chargefliprate
+```
+
+If you already have a local copy, simply update it with
+
+```bash
+git pull
+```
+
+> [!IMPORTANT]
+> Before running the framework, **update the EOS output paths to point to your own user area.**
+>
+> The **input skims can remain unchanged**, since they are read from the common skim location.
+>
+> **In `runChargeFlipSF_unbinned_allYears.C`**
+>
+> Update only the output directory:
+>
+> ```cpp
+> TString baseOutDir = "...";
+> ```
+>
+> The input directory
+>
+> ```cpp
+> TString baseInDir = "...";
+> ```
+>
+> normally **does not need to be changed**, unless your skims are stored elsewhere.
+>
+> **In `ChargeFlipRateTest.C`**
+>
+> Update:
+>
+> 1. The location where the script reads the charge-flip scale factor files:
+>
+> ```cpp
+> TString fileName = Form(
+>     ".../ChargeFlipSF_SIMPLE_%s.root",
+>     year.c_str()
+> );
+> ```
+>
+> inside `loadChargeFlipInfo()`.
+>
+> 2. The output directory for the ROOT files and PNG plots:
+>
+> ```cpp
+> static TString outDir = "...";
+> ```
+>
+> These should point to directories in **your own EOS space** before running the framework.
+
+---
 
 ## Overview
 
